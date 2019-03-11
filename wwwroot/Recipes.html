@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <title>Bierrecepten</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <select id="recipeSelector">
+            <option value="0">Selecteer een recept</option>
+        </select>
+        <div id="loadingRecipe" style="display:none">
+            <p>Recept wordt geladen</p>
+        </div>
+        <div id="recipeData" style="display:none;">
+            <h1><span id="recipeTitle" /></h1>
+            Aantal liter: <input type="number" id="wantedLiters" step="0.1" min="1" /><br />
+            De ingrediënten voor dit recept zijn origineel voor <span class="aantalLiters"></span> liter bier.<br /> Er is gevraagd om 
+            <strong><span class="gewildeLiters"></span></strong> liter bier, dus de factor waarmee de hoeveelheden zijn vermenigvuldigd is <strong><span id="scalingFactor"></span></strong>. 
+            <h2>Moutstort</h2>
+            <table>
+                <thead>
+                    <th>Mout naam</th>
+                    <th>Stortingspercentage</th>
+                    <th>Massa voor <span class="aantalLiters"></span> liter (kg)</th>
+                    <th>Massa voor <span class="gewildeLiters"></span> liter (kg)</th>
+                </thead>
+
+                <tbody id="malts"></tbody>
+
+                <tfoot>
+                    <th>Totaal</th>
+                    <th><span id="totalPercentage"></span>%</th>
+                    <th><span id="originalGrainMass"></span>kg</th>
+                    <th><span id="adjustedGrainMass"></span>kg</th>
+                </tfoot>
+            </table>
+
+            <h2>Hopstort</h2>
+            <table>
+                <thead>
+                    <th>Hop naam</th>
+                    <th>AAU voor <span class="aantalLiters"></span> liter</th>
+                    <th>AAU voor <span class="gewildeLiters"></span> liter</th>
+                    <th>Alfazuurpercentage</th>
+                    <th>Massa (g)</th>
+                    <th>Kooktijd</th>
+                </thead>
+
+                <tbody id="hops"></tbody>
+            </table>
+
+            <h2>Andere ingrediënten</h2>
+            <p id="noIngredients">Er zijn geen andere ingrediënten.</p>
+            <table id="extraIngredientsTable">
+                <thead>
+                    <th>Naam</th>
+                    <th>Massa voor <span class="aantalLiters"></span> liter (kg)</th>
+                    <th>Massa voor <span class="gewildeLiters"></span> liter (kg)</th>
+                </thead>
+                <tbody id="extraIngredients">
+
+                </tbody>
+            </table>
+
+            <h2>Gist</h2>
+            <span id="yeast"></span>
+
+            <h1>Maischen</h1>
+            <strong>Maischwater: </strong> <span id="mashingWater"></span><br />
+            <strong>Spoelwater: </strong> <span id="spargeWater"></span><br />
+            <strong>Beslagdikte: </strong> <span id="mashThickness"></span><br />
+            <strong>Volume van de mout: </strong><span id="maltVolume"></span><br />
+            <strong>Totale volume in maischcontainer: </strong><span id="totalVolume"></span><br />
+            <h2>Maischschema</h2>
+            <table>
+                <thead>
+                    <th>Stap</th>
+                    <th>Graden celsius</th>
+                    <th>Duur</th>
+                </thead>
+                <tbody id="mashStepsBody"></tbody>
+            </table>
+            <p id="mashDescription"></p>
+
+            <strong>Volume voor koken: </strong><span id="volumeBeforeCooking"></span>
+            <h1>Koken</h1>
+            <strong>Start SG: </strong><span id="beginSw"></span>
+            <p id="cookingDescription"></p><br />
+
+            <h1>Vergisting</h1>
+            <strong>Eind SG: </strong><span id="endSw"></span><br />
+            <p id="fermentationDescription"></p><br />
+
+            <h1>Bottelen</h1>
+            <strong>CO₂ bereik: </strong><span id="co2Range"></span><br />
+            <p id="bottlingDescription"></p>
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js" crossorigin></script>
+        <script src="./Recipes.js"></script>
+
+        <script type="text/javascript">
+            window.addEventListener("load", function(){
+                Recipes.init();
+            });
+        </script>
+    </body>
+</html>
