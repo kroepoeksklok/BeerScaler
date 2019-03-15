@@ -3,6 +3,7 @@ using BeerScaler.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Collections.Generic;
+using BeerScaler.Calculations;
 
 namespace BeerScaler.Controllers {
     [Route("api/[controller]")]
@@ -32,17 +33,13 @@ namespace BeerScaler.Controllers {
         }
 
         private ActionResult<Recipe> GetRecipeFromList(int id, decimal? wantedLiters = null) {
-            var recipe = _recipes.FirstOrDefault(r => r.StaticValues.Id == id);
+            var recipe = _recipes.GetRecipe(id);
 
             if (recipe == null) {
                 return NotFound();
             }
 
-            if (wantedLiters.HasValue) {
-                recipe.SetWantedLiters(wantedLiters.Value);
-            } else {
-                recipe.SetWantedLiters(recipe.StaticValues.Liters);
-            }
+            RecipeScaler.ScaleRecipe(recipe, wantedLiters);
 
             return recipe;
         }

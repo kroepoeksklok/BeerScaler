@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BeerScaler.Dtos;
 
 namespace BeerScaler.Data {
@@ -10,6 +11,10 @@ namespace BeerScaler.Data {
             CreateBelgianStrongAle();
             CreateAmericanBlonde();
             CreateGermanPilsner();
+        }
+        
+        public Recipe GetRecipe(int id) {
+            return this.FirstOrDefault(r => r.StaticValues.Id == id);
         }
 
         private void CreateAmberWaves() {

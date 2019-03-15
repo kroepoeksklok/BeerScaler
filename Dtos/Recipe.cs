@@ -50,7 +50,7 @@ namespace BeerScaler.Dtos {
         /// <summary>
         /// The number of liters required to mash the malt.
         /// </summary>
-        public decimal LitersForMashing { get; set; }
+        public decimal LitersForMashing => Math.Round(AdjustedGrainMass * StaticValues.LitersPerKiloOfMalt, 2, MidpointRounding.AwayFromZero);
 
         /// <summary>
         /// How many liters are wanted.
@@ -60,7 +60,7 @@ namespace BeerScaler.Dtos {
         /// <summary>
         /// Indicates by how much the values in the recipe need to be scaled.
         /// </summary>
-        public decimal ScalingFactor { get; set; }
+        public decimal ScalingFactor => LitersWanted / StaticValues.Liters;
 
         /// <summary>
         /// How much sparge water is required to reach the target, pre-boil volume.
@@ -70,12 +70,12 @@ namespace BeerScaler.Dtos {
         /// <summary>
         /// The grain mass, when scaled by the ScalingFactor.
         /// </summary>
-        public decimal AdjustedGrainMass { get; private set; }
+        public decimal AdjustedGrainMass { get; set; }
 
         /// <summary>
         /// Volume of the malt when dry
         /// </summary>
-        public decimal MaltVolume { get; set; }
+        public decimal MaltVolume => AdjustedGrainMass * Constants.VolumeOf1KilogramOfMalt;
 
         /// <summary>
         /// The list of malts this recipe needs.
@@ -103,44 +103,6 @@ namespace BeerScaler.Dtos {
         /// <param name="mashStep"></param>
         public void AddMashStep(MashStep mashStep) {
             _mashSteps.Enqueue(mashStep);
-        }
-
-        public void SetWantedLiters(decimal wantedLiters) {
-            LitersWanted = wantedLiters;
-            ScalingFactor = LitersWanted / StaticValues.Liters;
-
-            foreach (var malt in Malts) {
-                malt.CommonData.ScalingFactor = ScalingFactor;
-                AdjustedGrainMass += malt.AdjustedKilograms;
-                StaticValues.TotalGrainMass += malt.Kilograms;
-            }
-
-            foreach(var ingredient in OtherIngredients) {
-                ingredient.CommonData.ScalingFactor = ScalingFactor;
-            }
-
-            foreach(var malt in Malts) {
-                malt.PercentageOfGrainBill = Math.Round(malt.AdjustedKilograms / AdjustedGrainMass, 2, MidpointRounding.AwayFromZero) * 100;
-            }
-
-            foreach (var hop in Hops) {
-                hop.CommonData.ScalingFactor = ScalingFactor;
-            }
-
-            LitersForMashing = Math.Round(AdjustedGrainMass * StaticValues.LitersPerKiloOfMalt, 2, MidpointRounding.AwayFromZero);
-
-            MaltVolume = AdjustedGrainMass * Constants.VolumeOf1KilogramOfMalt;
-
-            DetermineSpargeWater();
-        }
-
-        /// <summary>
-        /// Determines how much sparge water is required to reach the required pre-boil volume.
-        /// </summary>
-        private void DetermineSpargeWater() {
-            var litersEvaporatedDuringCookingPhase = (StaticValues.CookingTime / 60m) * Constants.LitersEvaporatedPerHour;
-            var amountRequiredInPot = litersEvaporatedDuringCookingPhase + LitersWanted;
-            SpargeWater = Math.Round(amountRequiredInPot - LitersForMashing + (AdjustedGrainMass * Constants.AmountOfWater1KilogramOfMaltAbsorbs), 2, MidpointRounding.AwayFromZero);
         }
     }
 }
