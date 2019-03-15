@@ -105,9 +105,10 @@ namespace BeerScaler.Data {
             var beer = new Recipe(4, "Belgian strong ale", 19, cookingTimeInMinutes);  
 
             beer.Malts.Add(new WeightedIngredient(Malts.PilsenMd, 4.5m));
-            beer.Malts.Add(new WeightedIngredient(new Ingredient("Suiker"), 1.12m));
 
             beer.Hops.Add(new HopIngredient(Hops.Saaz, 6.5m, 90));
+
+            beer.OtherIngredients.Add(new WeightedIngredient(new Ingredient("Suiker"), 1.12m));
 
             beer.StaticValues.Yeast = Yeasts.Wyeast1388;
             beer.StaticValues.BeginSpecificWeight = 1.072m;
