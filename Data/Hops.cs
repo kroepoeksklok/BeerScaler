@@ -10,5 +10,7 @@ namespace BeerScaler.Data {
         public static Ingredient HallertauTradition => new Ingredient("Hallertau Tradition");
         public static Ingredient Tettnanger => new Ingredient("Tettnanger");
         public static Ingredient Perle => new Ingredient("Perle");
+        public static Ingredient Simcoe => new Ingredient("Simcoe");
+        public static Ingredient Amarillo => new Ingredient("Amarillo");
     }
 }

@@ -6,5 +6,6 @@ namespace BeerScaler.Data {
         public static Ingredient Wyeast3724 => new Ingredient("3724 - Belgian Saison", "Wyeast");
         public static Ingredient Wyeast1388 => new Ingredient("1388 - Belgian Strong Ale", "Wyeast");
         public static Ingredient Wyeast2124 => new Ingredient("2124 - Bohemian Lager", "Wyeast");
+        public static Ingredient Wlp001 => new Ingredient("WLP001 - California Ale", "White Labs");
     }
 }

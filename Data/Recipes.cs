@@ -11,6 +11,7 @@ namespace BeerScaler.Data {
             CreateBelgianStrongAle();
             CreateAmericanBlonde();
             CreateGermanPilsner();
+            CreateAmericanIPA();
         }
         
         public Recipe GetRecipe(int id) {
@@ -177,6 +178,34 @@ namespace BeerScaler.Data {
             beer.StaticValues.MashStepDescription = "Verwarm het maischwater tot +- 69 ºC. Vervolgens de mout er aan toevoegen. Daarna maischen volgens schema. <br /> Na het maischen alles uitmaischen door te verhitten tot 76 ºC en daarna spoelen met spoelwater van 77 ºC.";
             beer.StaticValues.CookingStepDescription = $"De totale kooktijd is {cookingTimeInMinutes} minuten, dus er verdampt {beer.StaticValues.LitersEvaporatedAfterCooking} liter. Voeg de hoppen toe conform het schema. Na het koken afkoelen tot 19 ºC. Er is nu ongeveer {Constants.PostCookVolume} liter over. Neem een sample van 100ml voor het SG.";
             beer.StaticValues.FermentationStepDescription = "Afkoelen tot 8 ºC en gedurende drie dagen de temperatuur langzaam laten stijgen tot 10 ºC. Meet na het vergisten en voor het bottelen de SG weer.";
+            beer.StaticValues.BottlingDescription = $"Dit bier moet een CO₂ volume hebben dat tussen de <strong>{beer.StaticValues.MinimumCO2}</strong> en <strong>{beer.StaticValues.MaximumCO2}</strong> ligt. Gebruik <a href=\"https://www.brewersfriend.com/beer-priming-calculator/\" target=\"_blank\">deze calculator</a> om te bepalen hoeveel suiker er nodig is. Na het bottelen twee weken laten nagisten op 19 ºC.";
+
+            Add(beer);
+        }
+
+        private void CreateAmericanIPA() {
+            decimal cookingTimeInMinutes = 60;
+            var beer = new Recipe(7, "Hoppiness is an IPA", 19, cookingTimeInMinutes);  
+
+            beer.Malts.Add(new WeightedIngredient(Malts.PaleAleMalt, 5.2m));
+            beer.Malts.Add(new WeightedIngredient(Malts.CaraHell, 0.4m));
+
+            beer.Hops.Add(new HopIngredient(Hops.Horizon, 10.92m, 60));
+            beer.Hops.Add(new HopIngredient(Hops.Centennial, 7.56m, 10));
+            beer.Hops.Add(new HopIngredient(Hops.Simcoe, 10.08m, 5));
+            beer.Hops.Add(new HopIngredient(Hops.Amarillo, 7.56m, 0));
+
+            beer.StaticValues.Yeast = Yeasts.Wlp001;
+            beer.StaticValues.BeginSpecificWeight = 1.065m;
+            beer.StaticValues.EndSpecificWeight = 1.012m;
+            beer.StaticValues.MinimumCO2 = 2.4m;
+            beer.StaticValues.MaximumCO2 = 2.5m;
+
+            beer.AddMashStep(new MashStep(90, 65));
+
+            beer.StaticValues.MashStepDescription = "Verwarm het maischwater tot +- 69 ºC. Vervolgens de mout er aan toevoegen. Daarna maischen volgens schema. <br /> Na het maischen alles uitmaischen door te verhitten tot 76 ºC en daarna spoelen met spoelwater van 77 ºC.";
+            beer.StaticValues.CookingStepDescription = $"De totale kooktijd is {cookingTimeInMinutes} minuten, dus er verdampt {beer.StaticValues.LitersEvaporatedAfterCooking} liter. Voeg de hoppen toe conform het schema. Na het koken afkoelen tot 19 ºC. Er is nu ongeveer {Constants.PostCookVolume} liter over. Neem een sample van 100ml voor het SG.";
+            beer.StaticValues.FermentationStepDescription = "Gist openen en toevoegen. Wacht tot deze uitvergist is.";
             beer.StaticValues.BottlingDescription = $"Dit bier moet een CO₂ volume hebben dat tussen de <strong>{beer.StaticValues.MinimumCO2}</strong> en <strong>{beer.StaticValues.MaximumCO2}</strong> ligt. Gebruik <a href=\"https://www.brewersfriend.com/beer-priming-calculator/\" target=\"_blank\">deze calculator</a> om te bepalen hoeveel suiker er nodig is. Na het bottelen twee weken laten nagisten op 19 ºC.";
 
             Add(beer);
