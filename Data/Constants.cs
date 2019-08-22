@@ -21,7 +21,7 @@ namespace BeerScaler.Data {
         /// <summary>
         /// How many liters are evaporated per hour during the boil phase.
         /// </summary>
-        public const decimal LitersEvaporatedPerHour = 2.6m;
+        public const decimal LitersEvaporatedPerHour = 2.98m;
 
         /// <summary>
         /// Grams per oz.
